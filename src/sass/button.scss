@@ -1,0 +1,35 @@
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: 'Explora', cursive;
+  font-weight: 500;
+  font-size: 28px;
+
+  height: 40px;
+  width: 150px;
+
+  border: 0px;
+  border-radius: 10px;
+
+  background-color: lightcyan;
+
+  transition: transform 500ms cubic-bezier(0.075, 0.82, 0.165, 1);
+
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    outline: none;
+    transform: scale(1.1);
+
+    border-radius: 10px;
+  }
+}
+
+.form-input:hover + button,
+.form-input:focus + button {
+  outline: none;
+  transform: scale(1.1);
+}

@@ -1,0 +1,37 @@
+.search-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+
+  width: 500px;
+  height: 40px;
+}
+
+.form-input {
+  font-family: 'Explora', cursive;
+  font-weight: 500;
+  font-size: 28px;
+
+  width: 300px;
+  height: 40px;
+
+  padding-left: 20px;
+  border: 0px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+
+  transition: transform 500ms cubic-bezier(0.075, 0.82, 0.165, 1);
+
+  &::placeholder {
+    font-family: 'Explora', cursive;
+    font-weight: 500;
+    font-size: 28px;
+  }
+
+  &:hover,
+  &:focus {
+    outline: none;
+    transform: scale(1.1);
+  }
+}
