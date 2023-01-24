@@ -28,8 +28,6 @@
   }
 }
 
-.form-input:hover + button,
-.form-input:focus + button {
-  outline: none;
-  transform: scale(1.1);
+button.is-hidden {
+  display: none;
 }

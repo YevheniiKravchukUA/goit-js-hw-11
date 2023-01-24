@@ -1,4 +1,4 @@
-.gallery {
+.gallery__section {
   display: grid;
   grid-template-areas: 'cards' 'button';
 
@@ -8,7 +8,7 @@
   }
 }
 
-.gallery__wrapper {
+.gallery {
   display: grid;
   grid-area: cards;
   grid-template-columns: repeat(5, 1fr);
@@ -22,4 +22,21 @@
 
   height: 100%;
   width: 100%;
+}
+
+.photo-card {
+  box-shadow: -2px 5px 5px -2px rgba(0, 0, 0, 0.5);
+}
+
+.gallery__image {
+  object-fit: cover;
+}
+
+.info {
+}
+
+.info-item {
+  border-bottom: 1px solid black;
+
+  padding-left: 3px;
 }
