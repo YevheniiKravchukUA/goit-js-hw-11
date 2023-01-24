@@ -1,8 +1,8 @@
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
-import { axiosDefault } from './js/axiosDefault';
 import { Notify } from 'notiflix';
 import { makeMarkup } from './js/makeMarkup';
+import { renderMarkup } from './js/renderMarkup';
+import { fetchImages } from './js/fetchImages';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const refs = {
   input: document.querySelector('.form-input'),
@@ -15,38 +15,15 @@ let page = 1;
 let searchValue = '';
 let totalHitsCounter = 0;
 
-async function fetchImages(searchName, page) {
-  try {
-    const response = await axiosDefault.get('', {
-      params: {
-        q: searchName,
-        page,
-      },
-    });
-
-    return response.data;
-  } catch (error) {
-    Notify.failure(error);
-  }
-}
-
-function renderMarkup(imagesData) {
-  const markup = imagesData.hits.map(imgData => makeMarkup(imgData));
-
-  refs.galleryWrapper.insertAdjacentHTML('beforeend', markup.join(''));
-  let gallery = new SimpleLightbox('.gallery a');
-  console.log(gallery);
-}
-
 async function onFormSubmit(e) {
   e.preventDefault();
+
+  page = 1;
+  totalHitsCounter = 40;
 
   if (refs.input.value.trim() === '') {
     return Notify.warning('Enter request name please');
   }
-
-  page = 1;
-  totalHitsCounter = 40;
 
   const imagesData = await fetchImages(refs.input.value.trim(), page);
 
@@ -58,7 +35,7 @@ async function onFormSubmit(e) {
 
   refs.galleryWrapper.innerHTML = '';
   Notify.success(`Hooray! We found ${imagesData.totalHits} images.`);
-  renderMarkup(imagesData);
+  renderMarkup(imagesData, makeMarkup, refs.galleryWrapper);
 
   page += 1;
   searchValue = refs.input.value.trim();
@@ -67,6 +44,7 @@ async function onFormSubmit(e) {
 
 async function onLoadMoreBtnClick(e) {
   const imagesData = await fetchImages(searchValue, page);
+  
   if (totalHitsCounter > imagesData.totalHits) {
     refs.loadMoreBtn.classList.add('is-hidden');
 
@@ -75,8 +53,7 @@ async function onLoadMoreBtnClick(e) {
     );
   }
 
-  renderMarkup(imagesData);
-
+  renderMarkup(imagesData, makeMarkup, refs.galleryWrapper);
   page += 1;
   totalHitsCounter += 40;
 }
