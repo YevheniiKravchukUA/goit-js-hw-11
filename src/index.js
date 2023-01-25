@@ -13,13 +13,11 @@ const refs = {
 
 let page = 1;
 let searchValue = '';
-let totalHitsCounter = 0;
 
 async function onFormSubmit(e) {
   e.preventDefault();
 
   page = 1;
-  totalHitsCounter = 40;
 
   if (refs.input.value.trim() === '') {
     return Notify.warning('Enter request name please');
@@ -39,23 +37,25 @@ async function onFormSubmit(e) {
 
   page += 1;
   searchValue = refs.input.value.trim();
-  refs.loadMoreBtn.classList.remove('is-hidden');
+
+  if (imagesData.totalHits > 40) {
+    refs.loadMoreBtn.classList.remove('is-hidden');
+  }
 }
 
 async function onLoadMoreBtnClick(e) {
   const imagesData = await fetchImages(searchValue, page);
-  
-  if (totalHitsCounter > imagesData.totalHits) {
+
+  renderMarkup(imagesData, makeMarkup, refs.galleryWrapper);
+  page += 1;
+
+  if (40 * page > imagesData.totalHits) {
     refs.loadMoreBtn.classList.add('is-hidden');
 
     return Notify.warning(
       "We're sorry, but you've reached the end of search results."
     );
   }
-
-  renderMarkup(imagesData, makeMarkup, refs.galleryWrapper);
-  page += 1;
-  totalHitsCounter += 40;
 }
 
 refs.form.addEventListener('submit', onFormSubmit);
